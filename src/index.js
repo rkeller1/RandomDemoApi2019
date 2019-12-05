@@ -2,6 +2,8 @@ var express = require("express");
 var app = express();
 var _data = require("./_data");
 
+const PORT = process.env.PORT || 5000
+
 app.use("/static", express.static(__dirname + "/public"));
 
 app.get("/users", (req, res, next) => {
@@ -19,6 +21,4 @@ app.get("/products", (req, res, next) => {
   res.json(fakeProducts);
 });
 
-app.listen(443, () => {
-  console.log("Server running on port 443");
-});
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
