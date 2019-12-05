@@ -11,7 +11,7 @@ app.get("/users", (req, res, next) => {
   res.json(fakeUsers);
 });
 app.get("/", (req, res, next) => {
-  res.send("Welcome");
+  res.send("Welcome to CVN Fake Users API!");
 });
 
 app.get("/products", (req, res, next) => {
