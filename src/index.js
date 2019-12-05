@@ -9,7 +9,7 @@ app.get("/", (req, res, next) => {
   });
 
 app.use("/static", express.static(__dirname + "/public"));
-
+// TODO: Implement format=json, format=xml etc
 app.get("/users", (req, res, next) => {
   let fakeUsers = _data.getFakeUsers();
   res.json(fakeUsers);
