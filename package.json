@@ -1,10 +1,11 @@
 {
   "name": "randomdemoapi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Api for generating demo data",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js localhost 8080"
+    "start": "node index.js",
+    "test": "node test.js"
   },
   "dependencies": {
     "express": "4.17.1"
@@ -12,5 +13,13 @@
   "devDependencies": {
     "nodemon": "1.18.4"
   },
-  "keywords": []
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rkeller1/RandomDemoApi2019"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
 }
