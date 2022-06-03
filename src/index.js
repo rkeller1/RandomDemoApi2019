@@ -58,7 +58,7 @@ app.use("/debug", (req, res) => {
 	let reqBody = '';
 	let reqFields = '';
 	try {
-		reqBody = req.body.toString();
+		reqBody = JSON.parse(req.body);
 	} catch (e) {
 	}
 
@@ -74,6 +74,7 @@ app.use("/debug", (req, res) => {
 		body: reqBody,
 		fields: reqFields
 	}
+	console.log(req);
 	console.log(JSON.stringify(debuggingObject, null, 4));
 	informUsers(JSON.stringify(debuggingObject, null, 4));
 	res.statusCode = 200;
