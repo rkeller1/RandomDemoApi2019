@@ -45,6 +45,7 @@ app.use("/debug", (req, res) => {
 	}
 	console.log(JSON.stringify(debuggingObject, null, 4));
 	res.statusCode = 200;
+	res.send('Finished...');
 });
 
 app.use("/", express.static(__dirname + "/frontend"));
