@@ -4,9 +4,25 @@ var _data = require("./_data");
 var data2xml = require('data2xml');
 var convert = data2xml();
 var { parse } = require('json2csv');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+
+var WebSocket = require('ws');
 
 const PORT = process.env.PORT || 5000;
+
+let websocketUsers = [];
+
+const wsServer = new WebSocket.Server({ noServer: true });
+wsServer.on('connection', socket => {
+	websocketUsers.push(socket);
+	informUsers('New user connected');
+});
+
+var informUsers = (msg) => {
+	websocketUsers.forEach(socket => {
+		socket.send(msg);
+	});
+}
 
 var responseHandler = (data, dataKey, req, res) => {
 	let getFormat = req.query.format;
@@ -29,7 +45,6 @@ var responseHandler = (data, dataKey, req, res) => {
 	}
 };
 
-app.use(express.body)
 
 app.use("/debug", (req, res) => {
 	let reqBody = '';
@@ -48,6 +63,7 @@ app.use("/debug", (req, res) => {
 		fields: reqFields
 	}
 	console.log(JSON.stringify(debuggingObject, null, 4));
+	informUsers(JSON.stringify(debuggingObject, null, 4));
 	res.statusCode = 200;
 	res.send('Finished...');
 });
@@ -66,4 +82,9 @@ app.get("/products", (req, res, next) => {
 	responseHandler(fakeProducts, ['Products', 'Product'], req, res);
 });
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+server.on('upgrade', (request, socket, head) => {
+	wsServer.handleUpgrade(request, socket, head, socket => {
+	  wsServer.emit('connection', socket, request);
+	});
+  });
