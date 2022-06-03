@@ -45,6 +45,14 @@ var responseHandler = (data, dataKey, req, res) => {
 	}
 };
 
+app.use(
+	express.urlencoded({
+	  extended: true,
+	})
+  );
+  
+  app.use(express.json());
+
 
 app.use("/debug", (req, res) => {
 	let reqBody = '';
@@ -55,6 +63,10 @@ app.use("/debug", (req, res) => {
 	}
 
 	const debuggingObject = {
+		url: req.originalUrl,
+		protocol: req.protocol,
+		hostname: req.hostname,
+		path: req.path,
 		method: req.method,
 		parameters: req.params,
 		query: req.query,
