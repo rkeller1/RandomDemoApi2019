@@ -28,6 +28,25 @@ var responseHandler = (data, dataKey, req, res) => {
 	}
 };
 
+app.use("/debug", (req, res) => {
+	let reqBody = '';
+	try {
+		reqBody = req.body.toString();
+	} catch (e) {
+		console.error(e);
+	}
+
+	const debuggingObject = {
+		method: req.method,
+		parameters: req.params,
+		query: req.query,
+		headers: req.headers,
+		body: reqBody
+	}
+	console.log(JSON.stringify(debuggingObject, null, 4));
+	res.statusCode = 200;
+});
+
 app.use("/", express.static(__dirname + "/frontend"));
 
 app.use("/static", express.static(__dirname + "/public"));
