@@ -4,6 +4,7 @@ var _data = require("./_data");
 var data2xml = require('data2xml');
 var convert = data2xml();
 var { parse } = require('json2csv');
+var bodyParser = require('body-parser')
 
 const PORT = process.env.PORT || 5000;
 
@@ -28,12 +29,14 @@ var responseHandler = (data, dataKey, req, res) => {
 	}
 };
 
+app.use(express.body)
+
 app.use("/debug", (req, res) => {
 	let reqBody = '';
+	let reqFields = '';
 	try {
 		reqBody = req.body.toString();
 	} catch (e) {
-		console.error(e);
 	}
 
 	const debuggingObject = {
@@ -41,7 +44,8 @@ app.use("/debug", (req, res) => {
 		parameters: req.params,
 		query: req.query,
 		headers: req.headers,
-		body: reqBody
+		body: reqBody,
+		fields: reqFields
 	}
 	console.log(JSON.stringify(debuggingObject, null, 4));
 	res.statusCode = 200;
